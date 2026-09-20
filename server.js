@@ -9,6 +9,7 @@ const repository = process.env.GITHUB_REPOSITORY || 'DigitalRage/switch-docs';
 const branch = process.env.GITHUB_BRANCH || 'main';
 const token = process.env.GITHUB_TOKEN;
 const documents = new Map();
+const saveTimers = new Map();
 
 function sendJson(response, status, value) {
   response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -80,8 +81,10 @@ socketServer.on('connection', socket => {
       socketServer.clients.forEach(client => {
         if (client !== socket && client.readyState === 1 && client.room === room) client.send(JSON.stringify({ type: 'update', ...update }));
       });
-      clearTimeout(socket.saveTimer);
-      socket.saveTimer = setTimeout(() => saveDocument(room, update.title, update.html).catch(console.error), 1000);
+      clearTimeout(saveTimers.get(room));
+      saveTimers.set(room, setTimeout(() => {
+        saveDocument(room, update.title, update.html).catch(console.error).finally(() => saveTimers.delete(room));
+      }, 1000));
     } catch (error) {
       console.error('Collaboration message failed:', error.message);
     }
