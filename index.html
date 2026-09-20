@@ -14,6 +14,7 @@
     <main class="home-main"><div class="home-heading"><div><span class="eyebrow">Current repository</span><h2>Recent documents</h2></div><button class="new-document" data-action="new">＋ New document</button></div><div id="documentGrid" class="document-grid"><div class="loading-card">Loading repository documents...</div></div><p id="homeNotice" class="home-notice"></p></main>
   </section>
   <div id="editorView">
+  <div class="session-warning" role="status">This session may end after 20 minutes. Changes are synchronized remotely while Live is shown.</div>
   <header class="topbar">
     <button class="brand-mark home-button" data-action="home" aria-label="All documents" title="All documents">▤</button>
     <div class="file-area">
@@ -39,6 +40,6 @@
   <dialog id="settingsDialog"><div class="dialog-form"><h2>Switch Docs collaboration</h2><p class="dialog-note">Edits are shared live with everyone in this document room. The collaboration server saves changes to <strong>DigitalRage/switch-docs</strong> using its private server configuration.</p><div class="dialog-actions"><button data-close-dialog>Close</button></div></div></dialog>
   <dialog id="deployDialog"><div class="dialog-form"><h2>Deploy live collaboration</h2><p class="dialog-note">GitHub Pages cannot run the collaboration server. Deploy the included Node server to Render, then add its WebSocket URL to the <strong>collaboration-endpoint</strong> setting in <strong>index.html</strong>.</p><div class="dialog-actions"><button data-close-dialog>Cancel</button><a class="deploy-link" href="https://render.com/deploy?repo=https://github.com/DigitalRage/switch-docs" target="_blank" rel="noopener">Deploy on Render</a></div></div></dialog>
   <input id="fileInput" type="file" accept=".html,.htm,.txt,.docx" hidden><input id="imageInput" type="file" accept="image/*" hidden>
-  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://cdn.jsdelivr.net/npm/yjs@13.6.27/dist/yjs.js"></script><script src="app.js"></script><script src="collaboration-crdt.js"></script>
 </body>
 </html>

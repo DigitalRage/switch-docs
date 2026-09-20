@@ -2,6 +2,7 @@ const fs = require('fs');
 const http = require('http');
 const path = require('path');
 const { WebSocketServer } = require('ws');
+const Y = require('yjs');
 
 const root = __dirname;
 const port = Number(process.env.PORT || 3000);
@@ -10,6 +11,7 @@ const branch = process.env.GITHUB_BRANCH || 'main';
 const token = process.env.GITHUB_TOKEN;
 const documents = new Map();
 const saveTimers = new Map();
+const crdtRooms = new Map();
 
 function sendJson(response, status, value) {
   response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -67,6 +69,7 @@ const server = http.createServer(async (request, response) => {
 const socketServer = new WebSocketServer({ server, path: '/collab' });
 socketServer.on('connection', socket => {
   let room;
+  let isCrdt = false;
   socket.on('message', raw => {
     try {
       const message = JSON.parse(raw.toString());
@@ -75,7 +78,28 @@ socketServer.on('connection', socket => {
         if (documents.has(room)) socket.send(JSON.stringify({ type: 'update', ...documents.get(room) }));
         return;
       }
+      if (message.type === 'join-crdt') {
+        room = message.path;
+        isCrdt = true;
+        const state = crdtRooms.get(room);
+        socket.send(JSON.stringify({ type: 'crdt-sync', update: state ? Buffer.from(state.update).toString('base64') : '', title: state ? state.title : '', html: state ? state.html : '' }));
+        return;
+      }
+      if (message.type === 'crdt-update' && room && isCrdt) {
+        const update = Buffer.from(message.update, 'base64');
+        const previous = crdtRooms.get(room);
+        const merged = previous ? Y.mergeUpdates([previous.update, update]) : update;
+        const state = { update: merged, title: message.title || '', html: message.html || '' };
+        crdtRooms.set(room, state);
+        socketServer.clients.forEach(client => {
+          if (client !== socket && client.readyState === 1 && client.room === room && client.isCrdt) client.send(JSON.stringify({ type: 'crdt-update', update: message.update, title: state.title, html: state.html }));
+        });
+        clearTimeout(saveTimers.get(room));
+        saveTimers.set(room, setTimeout(() => saveDocument(room, state.title, state.html).catch(console.error).finally(() => saveTimers.delete(room)), 1000));
+        return;
+      }
       if (message.type !== 'update' || !room) return;
+      if (crdtRooms.has(room)) return;
       const update = { title: message.title, html: message.html };
       documents.set(room, update);
       socketServer.clients.forEach(client => {
@@ -89,7 +113,7 @@ socketServer.on('connection', socket => {
       console.error('Collaboration message failed:', error.message);
     }
   });
-  Object.defineProperty(socket, 'room', { get: () => room });
+  Object.defineProperties(socket, { room: { get: () => room }, isCrdt: { get: () => isCrdt } });
 });
 
 server.listen(port, () => console.log(`Switch Docs running at http://localhost:${port}`));
