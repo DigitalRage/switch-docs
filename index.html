@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f9fa">
+  <title>OpenPage Docs</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true">▤</div>
+    <div class="file-area">
+      <input id="documentTitle" class="document-title" value="Untitled document" aria-label="Document title">
+      <div class="file-menu" role="navigation" aria-label="File actions">
+        <button data-action="new">New</button><button data-action="open">Open</button><button data-action="save">Save</button><button data-action="download">Download</button><button data-action="print">Print</button>
+      </div>
+    </div>
+    <div class="top-actions"><span id="saveState" class="save-state">Saved locally</span><button class="icon-button" data-action="share" title="Share link" aria-label="Share link">↗</button><button class="avatar" title="Local document">A</button></div>
+  </header>
+  <section class="toolbar" aria-label="Document toolbar">
+    <div class="toolbar-group"><button class="tool-button" data-command="undo" title="Undo">↶</button><button class="tool-button" data-command="redo" title="Redo">↷</button><button class="tool-button" data-action="print" title="Print">⎙</button></div>
+    <div class="toolbar-group"><select id="zoom" class="compact-select" title="Zoom"><option>100%</option><option>90%</option><option>80%</option><option>75%</option><option>125%</option></select><select id="blockStyle" class="style-select" title="Paragraph style"><option value="p">Normal text</option><option value="h1">Title</option><option value="h2">Heading 1</option><option value="h3">Heading 2</option><option value="h4">Heading 3</option><option value="blockquote">Quote</option></select><select id="fontName" class="font-select" title="Font family"><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Courier New">Courier New</option></select><select id="fontSize" class="size-select" title="Font size"><option value="2">10</option><option value="3" selected>12</option><option value="4">14</option><option value="5">18</option><option value="6">24</option><option value="7">32</option></select></div>
+    <div class="toolbar-group"><button class="tool-button strong" data-command="bold" title="Bold">B</button><button class="tool-button italic" data-command="italic" title="Italic">I</button><button class="tool-button underline" data-command="underline" title="Underline">U</button><button class="tool-button strike" data-command="strikeThrough" title="Strikethrough">S</button><label class="color-button" title="Text color">A<input id="textColor" type="color" value="#202124"></label><label class="color-button highlight" title="Highlight color">▰<input id="highlightColor" type="color" value="#fff2cc"></label></div>
+    <div class="toolbar-group"><button class="tool-button" data-command="justifyLeft" title="Align left">≡</button><button class="tool-button" data-command="justifyCenter" title="Align center">≣</button><button class="tool-button" data-command="justifyRight" title="Align right">≡</button><button class="tool-button" data-command="justifyFull" title="Justify">☰</button><button class="tool-button" data-command="insertUnorderedList" title="Bulleted list">•≡</button><button class="tool-button" data-command="insertOrderedList" title="Numbered list">1≡</button><button class="tool-button" data-command="outdent" title="Decrease indent">⇤</button><button class="tool-button" data-command="indent" title="Increase indent">⇥</button></div>
+    <div class="toolbar-group"><button class="tool-button" data-action="link" title="Insert link">🔗</button><button class="tool-button" data-action="image" title="Insert image">▧</button><button class="tool-button" data-action="table" title="Insert table">▦</button><button class="tool-button" data-action="checklist" title="Checklist">☑</button><button class="tool-button" data-action="clear" title="Clear formatting">Tx</button></div>
+    <div class="toolbar-group toolbar-end"><button class="tool-button" data-action="find" title="Find and replace">⌕</button><button class="tool-button" data-action="fullscreen" title="Fullscreen">⛶</button></div>
+  </section>
+  <main class="workspace"><div class="ruler"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div><article id="paper" class="paper" contenteditable="true" spellcheck="true" aria-label="Document editor"><p><br></p></article></main>
+  <footer class="statusbar"><span id="wordCount">0 words</span><span id="pageCount">Page 1 of 1</span><span class="status-spacer"></span><button data-action="stats">Document stats</button><button data-action="help">Help</button></footer>
+  <dialog id="findDialog"><form method="dialog" class="dialog-form"><h2>Find and replace</h2><label>Find<input id="findInput"></label><label>Replace with<input id="replaceInput"></label><div class="dialog-actions"><button value="cancel">Cancel</button><button type="button" id="replaceAll">Replace all</button><button type="button" id="findNext">Find next</button></div></form></dialog>
+  <dialog id="statsDialog"><div class="dialog-form"><h2>Document statistics</h2><p id="statsText"></p><div class="dialog-actions"><button data-close-dialog>Close</button></div></div></dialog>
+  <dialog id="settingsDialog"><form method="dialog" class="dialog-form"><h2>Save to GitHub</h2><p class="dialog-note">GitHub Pages is read-only. To commit this document, enter a repository and a short-lived fine-grained token with Contents: Read and write permission. The token is used only for this request.</p><label>Repository<input id="repoInput" placeholder="owner/repository"></label><label>File path<input id="pathInput" value="documents/untitled.html"></label><label>GitHub token<input id="tokenInput" type="password" autocomplete="off"></label><div class="dialog-actions"><button value="cancel">Cancel</button><button type="button" id="githubSave">Commit file</button></div></form></dialog>
+  <input id="fileInput" type="file" accept=".html,.htm,.txt,.docx" hidden><input id="imageInput" type="file" accept="image/*" hidden>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="app.js"></script>
+</body>
+</html>
