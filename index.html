@@ -8,8 +8,13 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <section id="homeView" class="home-view" hidden>
+    <header class="home-header"><div class="brand-mark" aria-hidden="true">▤</div><div><h1>OpenPage Docs</h1><p>Your documents, anywhere.</p></div><button class="home-refresh" data-action="refresh-home" title="Refresh documents">↻</button><button class="home-connect" data-action="connect">Connect repository</button></header>
+    <main class="home-main"><div class="home-heading"><div><span class="eyebrow">Current repository</span><h2>Recent documents</h2></div><button class="new-document" data-action="new">＋ New document</button></div><div id="documentGrid" class="document-grid"><div class="loading-card">Loading repository documents...</div></div><p id="homeNotice" class="home-notice"></p></main>
+  </section>
+  <div id="editorView">
   <header class="topbar">
-    <div class="brand-mark" aria-hidden="true">▤</div>
+    <button class="brand-mark home-button" data-action="home" aria-label="All documents" title="All documents">▤</button>
     <div class="file-area">
       <input id="documentTitle" class="document-title" value="Untitled document" aria-label="Document title">
       <div class="file-menu" role="navigation" aria-label="File actions">
@@ -26,11 +31,11 @@
     <div class="toolbar-group"><button class="tool-button" data-action="link" title="Insert link">🔗</button><button class="tool-button" data-action="image" title="Insert image">▧</button><button class="tool-button" data-action="table" title="Insert table">▦</button><button class="tool-button" data-action="checklist" title="Checklist">☑</button><button class="tool-button" data-action="clear" title="Clear formatting">Tx</button></div>
     <div class="toolbar-group toolbar-end"><button class="tool-button" data-action="find" title="Find and replace">⌕</button><button class="tool-button" data-action="fullscreen" title="Fullscreen">⛶</button></div>
   </section>
-  <main class="workspace"><div class="ruler"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div><article id="paper" class="paper" contenteditable="true" spellcheck="true" aria-label="Document editor"><p><br></p></article></main>
+  <main class="editor-layout"><aside class="tabs-rail" aria-label="Document tabs"><div class="tabs-heading"><span>Tabs</span><button data-action="add-tab" title="Add tab">＋</button></div><div id="tabList" class="tab-list"><button class="tab active" data-tab="main">▤ <span>Document body</span></button></div><button class="outline-tab" data-action="outline">☷ <span>Outline</span></button></aside><section class="workspace"><div class="ruler"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div><article id="paper" class="paper" contenteditable="true" spellcheck="true" aria-label="Document editor"><p><br></p></article></section></main>
   <footer class="statusbar"><span id="wordCount">0 words</span><span id="pageCount">Page 1 of 1</span><span class="status-spacer"></span><button data-action="stats">Document stats</button><button data-action="help">Help</button></footer>
   <dialog id="findDialog"><form method="dialog" class="dialog-form"><h2>Find and replace</h2><label>Find<input id="findInput"></label><label>Replace with<input id="replaceInput"></label><div class="dialog-actions"><button value="cancel">Cancel</button><button type="button" id="replaceAll">Replace all</button><button type="button" id="findNext">Find next</button></div></form></dialog>
   <dialog id="statsDialog"><div class="dialog-form"><h2>Document statistics</h2><p id="statsText"></p><div class="dialog-actions"><button data-close-dialog>Close</button></div></div></dialog>
-  <dialog id="settingsDialog"><form method="dialog" class="dialog-form"><h2>Save to GitHub</h2><p class="dialog-note">GitHub Pages is read-only. To commit this document, enter a repository and a short-lived fine-grained token with Contents: Read and write permission. The token is used only for this request.</p><label>Repository<input id="repoInput" placeholder="owner/repository"></label><label>File path<input id="pathInput" value="documents/untitled.html"></label><label>GitHub token<input id="tokenInput" type="password" autocomplete="off"></label><div class="dialog-actions"><button value="cancel">Cancel</button><button type="button" id="githubSave">Commit file</button></div></form></dialog>
+  <dialog id="settingsDialog"><form method="dialog" class="dialog-form"><h2>Connect this repository</h2><p class="dialog-note">This app already targets <strong>DigitalRage/switch-docs</strong>. A GitHub token is required because GitHub Pages cannot write files anonymously. It stays in this browser only.</p><label>Fine-grained GitHub token<input id="tokenInput" type="password" autocomplete="off"></label><div class="dialog-actions"><button value="cancel">Cancel</button><button type="button" id="githubSave">Connect and save</button></div></form></dialog>
   <input id="fileInput" type="file" accept=".html,.htm,.txt,.docx" hidden><input id="imageInput" type="file" accept="image/*" hidden>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="app.js"></script>
 </body>
