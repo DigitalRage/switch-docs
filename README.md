@@ -11,4 +11,6 @@ The homepage reads HTML and DOCX files from this repository through the public G
 
 Deploy the Node service wherever the app needs real-time collaboration. GitHub Pages alone can provide read-only/static editing because it cannot safely store a write token or host WebSockets.
 
+For GitHub Pages, deploy this repository's Node service to a host that supports WebSockets, set `GITHUB_TOKEN` there, and set the `collaboration-endpoint` meta tag in `index.html` to that service's `wss://` URL. For example, if the service is `https://switch-docs.example.com`, use `wss://switch-docs.example.com`. Then publish the updated static files to GitHub Pages.
+
 The DOCX helper is loaded from jsDelivr at runtime. For fully offline use, download `jszip.min.js` into the repository and change the script reference in `index.html` to that local file.
