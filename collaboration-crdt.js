@@ -43,6 +43,13 @@
     applyingRemote = false;
   }
 
+  function setDocumentPath(nextPath) {
+    if (!nextPath || nextPath === documentPath) return;
+    documentPath = nextPath;
+    ready = false;
+    if (socket) socket.close();
+  }
+
   function connect() {
     clearTimeout(reconnectTimer);
     doc = new Y.Doc();
@@ -67,6 +74,10 @@
         Y.applyUpdate(doc, decode(message.update), 'remote');
         if (message.title) title.value = message.title;
         renderRemote();
+        return;
+      }
+      if (message.type === 'save-error') {
+        state.textContent = 'GitHub save failed';
       }
     });
     socket.addEventListener('close', function () {
@@ -88,8 +99,9 @@
     }, 'local');
   });
   title.addEventListener('input', function () {
-    if (documentPath === 'documents/untitled-document.html') documentPath = 'documents/' + safeName() + '.html';
+    if (documentPath === 'documents/untitled-document.html') setDocumentPath('documents/' + safeName() + '.html');
     if (ready) sendSnapshot(Y.encodeStateAsUpdate(doc));
   });
+  window.addEventListener('switch-doc-path', function (event) { setDocumentPath(event.detail); });
   connect();
 }());

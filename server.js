@@ -22,6 +22,12 @@ function githubPath(documentPath) {
   return `https://api.github.com/repos/${repository}/contents/${documentPath}`;
 }
 
+function notifySaveError(room, error) {
+  socketServer.clients.forEach(client => {
+    if (client.readyState === 1 && client.room === room) client.send(JSON.stringify({ type: 'save-error', error: error.message }));
+  });
+}
+
 async function saveDocument(documentPath, title, html) {
   if (!token) throw new Error('GITHUB_TOKEN is not configured');
   const currentResponse = await fetch(`${githubPath(documentPath)}?ref=${encodeURIComponent(branch)}`, {
@@ -39,6 +45,10 @@ async function saveDocument(documentPath, title, html) {
 }
 
 const server = http.createServer(async (request, response) => {
+  if (request.method === 'GET' && request.url === '/api/status') {
+    sendJson(response, 200, { collaboration: true, githubConfigured: Boolean(token), repository, branch });
+    return;
+  }
   if (request.method === 'POST' && request.url === '/api/save') {
     let body = '';
     request.on('data', chunk => { body += chunk; });
@@ -95,7 +105,7 @@ socketServer.on('connection', socket => {
           if (client !== socket && client.readyState === 1 && client.room === room && client.isCrdt) client.send(JSON.stringify({ type: 'crdt-update', update: message.update, title: state.title, html: state.html }));
         });
         clearTimeout(saveTimers.get(room));
-        saveTimers.set(room, setTimeout(() => saveDocument(room, state.title, state.html).catch(console.error).finally(() => saveTimers.delete(room)), 1000));
+        saveTimers.set(room, setTimeout(() => saveDocument(room, state.title, state.html).catch(error => { notifySaveError(room, error); console.error(error); }).finally(() => saveTimers.delete(room)), 1000));
         return;
       }
       if (message.type !== 'update' || !room) return;
@@ -107,7 +117,7 @@ socketServer.on('connection', socket => {
       });
       clearTimeout(saveTimers.get(room));
       saveTimers.set(room, setTimeout(() => {
-        saveDocument(room, update.title, update.html).catch(console.error).finally(() => saveTimers.delete(room));
+        saveDocument(room, update.title, update.html).catch(error => { notifySaveError(room, error); console.error(error); }).finally(() => saveTimers.delete(room));
       }, 1000));
     } catch (error) {
       console.error('Collaboration message failed:', error.message);
