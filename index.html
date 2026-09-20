@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f8f9fa">
-  <title>OpenPage Docs</title>
+  <title>Switch Docs</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <section id="homeView" class="home-view" hidden>
-    <header class="home-header"><div class="brand-mark" aria-hidden="true">▤</div><div><h1>OpenPage Docs</h1><p>Your documents, anywhere.</p></div><button class="home-refresh" data-action="refresh-home" title="Refresh documents">↻</button><button class="home-connect" data-action="connect">Connect repository</button></header>
+    <header class="home-header"><div class="brand-mark" aria-hidden="true">▤</div><div><h1>Switch Docs</h1><p>Your documents, anywhere.</p></div><button class="home-refresh" data-action="refresh-home" title="Refresh documents">↻</button><span class="connection-badge">Live collaboration</span></header>
     <main class="home-main"><div class="home-heading"><div><span class="eyebrow">Current repository</span><h2>Recent documents</h2></div><button class="new-document" data-action="new">＋ New document</button></div><div id="documentGrid" class="document-grid"><div class="loading-card">Loading repository documents...</div></div><p id="homeNotice" class="home-notice"></p></main>
   </section>
   <div id="editorView">
@@ -21,7 +21,7 @@
         <button data-action="new">New</button><button data-action="open">Open</button><button data-action="save">Save</button><button data-action="download">Download</button><button data-action="print">Print</button>
       </div>
     </div>
-    <div class="top-actions"><span id="saveState" class="save-state">Saved locally</span><button class="icon-button" data-action="share" title="Share link" aria-label="Share link">↗</button><button class="avatar" title="Local document">A</button></div>
+    <div class="top-actions"><span id="collaborationState" class="collaboration-state">Connecting...</span><span id="saveState" class="save-state">Saved locally</span><button class="icon-button" data-action="share" title="Share link" aria-label="Share link">↗</button><button class="avatar" title="Switch Docs">S</button></div>
   </header>
   <section class="toolbar" aria-label="Document toolbar">
     <div class="toolbar-group"><button class="tool-button" data-command="undo" title="Undo">↶</button><button class="tool-button" data-command="redo" title="Redo">↷</button><button class="tool-button" data-action="print" title="Print">⎙</button></div>
@@ -35,7 +35,7 @@
   <footer class="statusbar"><span id="wordCount">0 words</span><span id="pageCount">Page 1 of 1</span><span class="status-spacer"></span><button data-action="stats">Document stats</button><button data-action="help">Help</button></footer>
   <dialog id="findDialog"><form method="dialog" class="dialog-form"><h2>Find and replace</h2><label>Find<input id="findInput"></label><label>Replace with<input id="replaceInput"></label><div class="dialog-actions"><button value="cancel">Cancel</button><button type="button" id="replaceAll">Replace all</button><button type="button" id="findNext">Find next</button></div></form></dialog>
   <dialog id="statsDialog"><div class="dialog-form"><h2>Document statistics</h2><p id="statsText"></p><div class="dialog-actions"><button data-close-dialog>Close</button></div></div></dialog>
-  <dialog id="settingsDialog"><form method="dialog" class="dialog-form"><h2>Connect this repository</h2><p class="dialog-note">This app already targets <strong>DigitalRage/switch-docs</strong>. A GitHub token is required because GitHub Pages cannot write files anonymously. It stays in this browser only.</p><label>Fine-grained GitHub token<input id="tokenInput" type="password" autocomplete="off"></label><div class="dialog-actions"><button value="cancel">Cancel</button><button type="button" id="githubSave">Connect and save</button></div></form></dialog>
+  <dialog id="settingsDialog"><div class="dialog-form"><h2>Switch Docs collaboration</h2><p class="dialog-note">Edits are shared live with everyone in this document room. The collaboration server saves changes to <strong>DigitalRage/switch-docs</strong> using its private server configuration.</p><div class="dialog-actions"><button data-close-dialog>Close</button></div></div></dialog>
   <input id="fileInput" type="file" accept=".html,.htm,.txt,.docx" hidden><input id="imageInput" type="file" accept="image/*" hidden>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="app.js"></script>
 </body>

@@ -1,0 +1,12 @@
+{
+  "name": "switch-docs",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Switch Docs collaborative editor",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  }
+}
