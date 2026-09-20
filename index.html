@@ -22,7 +22,7 @@
         <button data-action="new">New</button><button data-action="open">Open</button><button data-action="save">Save</button><button data-action="download">Download</button><button data-action="print">Print</button>
       </div>
     </div>
-    <div class="top-actions"><span id="collaborationState" class="collaboration-state">Connecting...</span><span id="saveState" class="save-state">Saved locally</span><button class="icon-button" data-action="share" title="Share link" aria-label="Share link">↗</button><button class="avatar" title="Switch Docs">S</button></div>
+    <div class="top-actions"><span id="collaborationState" class="collaboration-state">Connecting...</span><span id="saveState" class="save-state">Saved locally</span><button id="deployButton" class="deploy-button" title="Deploy collaboration server">Deploy server</button><button class="icon-button" data-action="share" title="Share link" aria-label="Share link">↗</button><button class="avatar" title="Switch Docs">S</button></div>
   </header>
   <section class="toolbar" aria-label="Document toolbar">
     <div class="toolbar-group"><button class="tool-button" data-command="undo" title="Undo">↶</button><button class="tool-button" data-command="redo" title="Redo">↷</button><button class="tool-button" data-action="print" title="Print">⎙</button></div>
@@ -37,6 +37,7 @@
   <dialog id="findDialog"><form method="dialog" class="dialog-form"><h2>Find and replace</h2><label>Find<input id="findInput"></label><label>Replace with<input id="replaceInput"></label><div class="dialog-actions"><button value="cancel">Cancel</button><button type="button" id="replaceAll">Replace all</button><button type="button" id="findNext">Find next</button></div></form></dialog>
   <dialog id="statsDialog"><div class="dialog-form"><h2>Document statistics</h2><p id="statsText"></p><div class="dialog-actions"><button data-close-dialog>Close</button></div></div></dialog>
   <dialog id="settingsDialog"><div class="dialog-form"><h2>Switch Docs collaboration</h2><p class="dialog-note">Edits are shared live with everyone in this document room. The collaboration server saves changes to <strong>DigitalRage/switch-docs</strong> using its private server configuration.</p><div class="dialog-actions"><button data-close-dialog>Close</button></div></div></dialog>
+  <dialog id="deployDialog"><div class="dialog-form"><h2>Deploy live collaboration</h2><p class="dialog-note">GitHub Pages cannot run the collaboration server. Deploy the included Node server to Render, then add its WebSocket URL to the <strong>collaboration-endpoint</strong> setting in <strong>index.html</strong>.</p><div class="dialog-actions"><button data-close-dialog>Cancel</button><a class="deploy-link" href="https://render.com/deploy?repo=https://github.com/DigitalRage/switch-docs" target="_blank" rel="noopener">Deploy on Render</a></div></div></dialog>
   <input id="fileInput" type="file" accept=".html,.htm,.txt,.docx" hidden><input id="imageInput" type="file" accept="image/*" hidden>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="app.js"></script>
 </body>
